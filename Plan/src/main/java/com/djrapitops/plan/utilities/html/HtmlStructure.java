@@ -1,4 +1,4 @@
-/* 
+/*
  * Licence is provided in the jar as license.yml also here:
  * https://github.com/Rsl1122/Plan-PlayerAnalytics/blob/master/Plan/src/main/resources/license.yml
  */
@@ -13,6 +13,15 @@ import main.java.com.djrapitops.plan.database.Database;
 import main.java.com.djrapitops.plan.settings.Settings;
 import main.java.com.djrapitops.plan.systems.info.BukkitInformationManager;
 import main.java.com.djrapitops.plan.utilities.FormatUtils;
+import main.java.com.djrapitops.plan.utilities.html.elements.Div;
+import main.java.com.djrapitops.plan.utilities.html.elements.list.Li;
+import main.java.com.djrapitops.plan.utilities.html.elements.placement.Column;
+import main.java.com.djrapitops.plan.utilities.html.elements.placement.Row;
+import main.java.com.djrapitops.plan.utilities.html.elements.placement.Tab;
+import main.java.com.djrapitops.plan.utilities.html.elements.text.Heading2;
+import main.java.com.djrapitops.plan.utilities.html.elements.text.Icon;
+import main.java.com.djrapitops.plan.utilities.html.elements.text.Link;
+import main.java.com.djrapitops.plan.utilities.html.elements.text.Paragraph;
 import main.java.com.djrapitops.plan.utilities.html.graphs.line.PlayerActivityGraph;
 import main.java.com.djrapitops.plan.utilities.html.structure.SessionTabStructureCreator;
 import main.java.com.djrapitops.plan.utilities.html.tables.SessionsTableCreator;
@@ -72,16 +81,20 @@ public class HtmlStructure {
     }
 
     public static String[] createInspectPageTabContentCalculating() {
-        String tab = "<div class=\"tab\">" +
-                "<div class=\"row clearfix\">" +
-                "<div class=\"col-lg-12 col-md-12 col-sm-12 col-xs-12\">" +
-                "<div class=\"card\">" +
-                "<div class=\"header\"><h2><i class=\"fa fa-users\"></i> Plugin Data</h2></div>" +
-                "<div class=\"body\">" +
-                "<p><i class=\"fa fa-spin fa-refresh\"></i> Calculating Plugins tab, refresh (F5) shortly..</p>" +
-                "</div></div>" +
-                "</div></div></div>";
-        return new String[]{"<li><a>Calculating... Refresh shortly</a></li>", tab};
+        String msg = "Calculating Plugins tab, refresh (F5) shortly..";
+
+        String tab = new Tab(
+                new Row(new Column(
+                        new Div("card",
+                                new Div("header", new Heading2(new Icon("cubes") + " Plugin Data")),
+                                new Div("body", new Paragraph(new Icon("refresh").spin() + " " + msg))
+                        )
+                ))
+        ).toHtml();
+
+        String tabButton = new Li(new Link("Calculating... Refresh shortly")).toHtml();
+
+        return new String[]{tabButton, tab};
     }
 
     public static String createNetworkPageContent(Map<UUID, String> networkPageContents) {
